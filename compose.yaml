@@ -1,0 +1,13 @@
+services:
+  safe-link-visual-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: safe-link-visual-mcp:latest
+    ports:
+      - "8000:8000"
+    environment:
+      SAFE_LINK_TIMEOUT: "3"
+      SAFE_LINK_RENDER_TIMEOUT: "3"
+      SAFE_LINK_MAX_REDIRECTS: "5"
+    restart: unless-stopped

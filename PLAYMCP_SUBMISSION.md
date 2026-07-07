@@ -22,7 +22,7 @@ PAT: 비공개 저장소일 때만 입력
 대표 이미지: assets/playmcp-cover.png
 MCP 이름: Safe Link Visual
 MCP 식별자: safeLinkVisual
-MCP 설명: URL을 열기 전 피싱 위험을 완전 안전하다/위험할 수 있다로 판정하고, 핵심 화면과 판단 근거를 정사각형 이미지로 압축해 보여주는 링크 안전 브리핑 MCP입니다.
+MCP 설명: 학습 데이터셋은 사용하지 않습니다. URL·DNS·HTTP·HTML·모바일 렌더링 신호를 OWASP SSRF, IANA 특수 IP, IETF URI/IDNA, MDN, Google Safe Browsing 공개 문서를 참고한 규칙으로 검사해 '완전 안전하다/위험할 수 있다'로 판정하고 핵심 화면 요약 이미지를 제공합니다.
 인증 방식: 인증 사용하지 않음
 MCP Endpoint: https://YOUR_PUBLIC_DOMAIN/mcp
 ```
@@ -34,9 +34,9 @@ MCP Endpoint: https://YOUR_PUBLIC_DOMAIN/mcp
 각 문장은 40자 이하입니다.
 
 ```text
-이 링크 열어도 안전해?
-수상한 로그인 링크인지 확인해줘
-사이트 미리보기 이미지 보여줘
+이 링크 위험해?
+피싱 링크인지 봐줘
+사이트 요약 이미지 보여줘
 ```
 
 ## MCP Tools

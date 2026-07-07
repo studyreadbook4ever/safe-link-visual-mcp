@@ -4,6 +4,7 @@ import os
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP, Image
+from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import ToolAnnotations
 
 from safelink_mcp.inspector import inspect_url
@@ -14,14 +15,45 @@ def _tool_annotations(name: str) -> ToolAnnotations:
     return ToolAnnotations(**TOOL_CONTRACTS[name]["annotations"])
 
 
+def _csv_env(name: str, defaults: tuple[str, ...]) -> list[str]:
+    raw = os.getenv(name)
+    if raw is None:
+        return list(defaults)
+    return [item.strip() for item in raw.split(",") if item.strip()]
+
+
+DEFAULT_ALLOWED_HOSTS = (
+    "safelink-visual.playmcp-endpoint.kakaocloud.io",
+    "safelink-visual.playmcp-endpoint.kakaocloud.io:*",
+    "127.0.0.1:*",
+    "localhost:*",
+    "[::1]:*",
+)
+
+DEFAULT_ALLOWED_ORIGINS = (
+    "https://playmcp.kakao.com",
+    "https://playmcp.kakaocloud.io",
+    "https://safelink-visual.playmcp-endpoint.kakaocloud.io",
+    "http://127.0.0.1:*",
+    "http://localhost:*",
+    "http://[::1]:*",
+)
+
+
 mcp = FastMCP(
     SERVER_NAME,
     instructions=(
         "사용자가 제공한 URL을 격리된 모바일 브라우저 관찰과 규칙 앙상블로 검사합니다. "
         "판정은 완전 안전하다 또는 위험할 수 있다의 보수적 2진 분류입니다."
     ),
+    host="0.0.0.0",
     stateless_http=True,
     json_response=True,
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=_csv_env("SAFE_LINK_MCP_ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS),
+        allowed_origins=_csv_env("SAFE_LINK_MCP_ALLOWED_ORIGINS", DEFAULT_ALLOWED_ORIGINS),
+    ),
 )
 
 

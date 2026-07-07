@@ -24,7 +24,7 @@ MCP 이름: Safe Link Visual
 MCP 식별자: safeLinkVisual
 MCP 설명: 학습 데이터셋은 사용하지 않습니다. URL·DNS·HTTP·HTML·모바일 렌더링 신호를 OWASP SSRF, IANA 특수 IP, IETF URI/IDNA, MDN, Google Safe Browsing 공개 문서를 참고한 규칙으로 검사해 '완전 안전하다/위험할 수 있다'로 판정하고 핵심 화면 요약 이미지를 제공합니다.
 인증 방식: 인증 사용하지 않음
-MCP Endpoint: https://YOUR_PUBLIC_DOMAIN/mcp
+MCP Endpoint: https://safelink-visual.playmcp-endpoint.kakaocloud.io/mcp
 ```
 
 `safeLinkVisual`은 영문/숫자만 사용하며 14자라서 PlayMCP 식별자 제한인 16자 이하를 만족합니다.

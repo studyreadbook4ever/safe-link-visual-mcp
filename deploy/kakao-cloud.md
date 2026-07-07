@@ -62,9 +62,13 @@ SAFE_LINK_VISUAL_BUDGET=2.8
 SAFE_LINK_TIMEOUT=2
 SAFE_LINK_RENDER_TIMEOUT=2
 SAFE_LINK_MAX_REDIRECTS=5
+SAFE_LINK_MCP_ALLOWED_HOSTS=safelink-visual.playmcp-endpoint.kakaocloud.io,safelink-visual.playmcp-endpoint.kakaocloud.io:*,127.0.0.1:*,localhost:*,[::1]:*
+SAFE_LINK_MCP_ALLOWED_ORIGINS=https://playmcp.kakao.com,https://playmcp.kakaocloud.io,https://safelink-visual.playmcp-endpoint.kakaocloud.io,http://127.0.0.1:*,http://localhost:*,http://[::1]:*
 ```
 
 `SAFE_LINK_FAST_BUDGET`와 `SAFE_LINK_VISUAL_BUDGET`는 각 도구 호출의 전체 응답 시간 예산입니다. 시간이 초과되면 raw error 대신 `위험할 수 있다` 판정과 쉬운 설명을 반환합니다.
+
+MCP SDK의 DNS rebinding 보호가 켜져 있으므로 `SAFE_LINK_MCP_ALLOWED_HOSTS`에는 PlayMCP에 등록할 공개 endpoint host가 반드시 포함되어야 합니다. 누락되면 `/healthz`는 통과해도 `/mcp` POST가 `421 Invalid Host header`로 실패합니다.
 
 ## Expected MCP Tools
 
@@ -78,7 +82,7 @@ SAFE_LINK_MAX_REDIRECTS=5
 2. PlayMCP 개발자 콘솔의 `새로운 MCP 서버 등록`에 아래 URL을 등록합니다.
 
 ```text
-https://YOUR_PUBLIC_DOMAIN/mcp
+https://safelink-visual.playmcp-endpoint.kakaocloud.io/mcp
 ```
 
 3. 개발 중에는 `임시 등록`으로 테스트합니다.

@@ -4,6 +4,7 @@ from pathlib import Path
 
 from PIL import Image
 
+from safelink_mcp.server import mcp
 from safelink_mcp.tool_contract import (
     K8S_RESOURCE_NAME,
     PLAYMCP_IDENTIFIER,
@@ -48,6 +49,15 @@ def test_mcp_sdk_dependency_is_pinned_to_verified_playmcp_protocol() -> None:
     assert "<1.29" in mcp_dependency
 
 
+def test_playmcp_endpoint_host_is_allowed_by_mcp_transport_security() -> None:
+    security = mcp.settings.transport_security
+
+    assert security is not None
+    assert security.enable_dns_rebinding_protection is True
+    assert "safelink-visual.playmcp-endpoint.kakaocloud.io" in security.allowed_hosts
+    assert "https://playmcp.kakao.com" in security.allowed_origins
+
+
 def test_playmcp_representative_image_exists() -> None:
     path = Path("assets/playmcp-cover.png")
     assert path.exists()
@@ -80,7 +90,7 @@ def test_playmcp_submission_sheet_matches_form_limits() -> None:
     assert identifier == PLAYMCP_IDENTIFIER
     assert re.fullmatch(r"[A-Za-z0-9]{1,16}", identifier)
     assert len(description) <= 500
-    assert endpoint == "https://YOUR_PUBLIC_DOMAIN/mcp"
+    assert endpoint == "https://safelink-visual.playmcp-endpoint.kakaocloud.io/mcp"
 
     examples_match = re.search(r"## 대화 예시.*?```text\n(.*?)```", text, re.DOTALL)
     assert examples_match

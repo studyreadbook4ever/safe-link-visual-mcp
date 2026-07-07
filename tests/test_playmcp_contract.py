@@ -55,3 +55,35 @@ def test_playmcp_representative_image_exists() -> None:
     with Image.open(path) as image:
         assert image.size[0] >= 600
         assert image.size[1] >= 600
+
+
+def test_playmcp_submission_sheet_matches_form_limits() -> None:
+    text = Path("PLAYMCP_SUBMISSION.md").read_text()
+
+    def value_for(label: str) -> str:
+        match = re.search(rf"^{re.escape(label)}:\s*(.+)$", text, re.MULTILINE)
+        assert match, f"missing field: {label}"
+        return match.group(1).strip()
+
+    server_name = value_for("MCP 서버 이름")
+    git_url = value_for("Git URL")
+    display_name = value_for("MCP 이름")
+    identifier = value_for("MCP 식별자")
+    description = value_for("MCP 설명")
+    endpoint = value_for("MCP Endpoint")
+
+    assert server_name == K8S_RESOURCE_NAME
+    assert re.fullmatch(r"[a-z0-9]([-a-z0-9.]*[a-z0-9])?", server_name)
+    assert git_url == "https://github.com/studyreadbook4ever/safe-link-visual-mcp.git"
+    assert display_name == "Safe Link Visual"
+    assert len(display_name) <= 30
+    assert identifier == PLAYMCP_IDENTIFIER
+    assert re.fullmatch(r"[A-Za-z0-9]{1,16}", identifier)
+    assert len(description) <= 500
+    assert endpoint == "https://YOUR_PUBLIC_DOMAIN/mcp"
+
+    examples_match = re.search(r"## 대화 예시.*?```text\n(.*?)```", text, re.DOTALL)
+    assert examples_match
+    examples = [line.strip() for line in examples_match.group(1).splitlines() if line.strip()]
+    assert len(examples) == 3
+    assert all(len(example) <= 40 for example in examples)

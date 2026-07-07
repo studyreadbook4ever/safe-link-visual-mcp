@@ -7,7 +7,7 @@
 ```text
 MCP 서버 이름: safelink-visual
 설명: 링크를 열기 전 안전 여부와 핵심 화면 요약 이미지를 제공하는 MCP 서버
-Git URL: https://github.com/YOUR_ORG/YOUR_REPOSITORY.git
+Git URL: https://github.com/studyreadbook4ever/safe-link-visual-mcp.git
 브랜치 / ref: main
 Dockerfile 경로: Dockerfile
 PAT: 비공개 저장소일 때만 입력

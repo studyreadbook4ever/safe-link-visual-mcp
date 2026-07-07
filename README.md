@@ -53,7 +53,7 @@ Git source build fields:
 ```text
 MCP server name: safelink-visual
 Description: 링크를 열기 전 안전 여부와 핵심 화면 요약 이미지를 제공하는 MCP 서버
-Git URL: https://github.com/YOUR_ORG/YOUR_REPOSITORY.git
+Git URL: https://github.com/studyreadbook4ever/safe-link-visual-mcp.git
 Branch/ref: main
 Dockerfile path: Dockerfile
 PAT: private repository only
